@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Business Loan Application</title>
+</head>
+<body>
+  <h1>Business Loan Application</h1>
+  
+  <form id="loanForm">
+    <label for="businessName">Business Name:</label>
+    <input type="text" id="businessName" name="businessName" required><br><br>
+    
+    <label for="yearEstablished">Year Established:</label>
+    <input type="number" id="yearEstablished" name="yearEstablished" required><br><br>
+    
+    <label for="loanAmount">Loan Amount:</label>
+    <input type="number" id="loanAmount" name="loanAmount" required><br><br>
+    
+    <label for="accountingProvider">Accounting Provider:</label>
+    <select id="accountingProvider" name="accountingProvider">
+      <option value="Xero">Xero</option>
+      <option value="MYOB">MYOB</option>
+      <!-- Add more options as needed -->
+    </select><br><br>
+    
+    <button type="button" onclick="fetchBalanceSheet()">Request Balance Sheet</button><br><br>
+    
+    <div id="balanceSheet"></div><br>
+    
+    <button type="button" onclick="submitApplication()">Submit Application</button><br><br>
+  </form>
+  
+  <div id="applicationResult"></div>
+  
+  <script>
+    function fetchBalanceSheet() {
+      // Simulate fetching balance sheet data from backend
+      const balanceSheet = [
+        {
+          "year": 2020,
+          "month": 12,
+          "profitOrLoss": 250000,
+          "assetsValue": 1234
+        },
+        {
+          "year": 2020,
+          "month": 11,
+          "profitOrLoss": 1150,
+          "assetsValue": 5789
+        },
+        {
+          "year": 2020,
+          "month": 10,
+          "profitOrLoss": 2500,
+          "assetsValue": 22345
+        },
+        {
+          "year": 2020,
+          "month": 9,
+          "profitOrLoss": -187000,
+          "assetsValue": 223452
+        }
+      ];
+      
+      const balanceSheetDiv = document.getElementById("balanceSheet");
+      balanceSheetDiv.innerHTML = JSON.stringify(balanceSheet, null, 2);
+    }
+    
+    function submitApplication() {
+      // Simulate submitting application and receiving response from backend
+      const preAssessment = calculatePreAssessment();
+      const resultDiv = document.getElementById("applicationResult");
+      resultDiv.innerHTML = `Application Result:<br>preAssessment: ${preAssessment}`;
+    }
+    
+    function calculatePreAssessment() {
+      // Simulate applying rules
+      const balanceSheet = [
+        {
+          "year": 2020,
+          "month": 12,
+          "profitOrLoss": 250000,
+          "assetsValue": 1234
+        },
+        // ... other balance sheet data
+      ];
+      
+      // Calculate average profitOrLoss and assetsValue
+      const totalProfitOrLoss = balanceSheet.reduce((sum, entry) => sum + entry.profitOrLoss, 0);
+      const averageProfitOrLoss = totalProfitOrLoss / balanceSheet.length;
+      
+      const totalAssetsValue = balanceSheet.reduce((sum, entry) => sum + entry.assetsValue, 0);
+      const averageAssetsValue = totalAssetsValue / balanceSheet.length;
+      
+      // Get user inputs
+      const loanAmount = parseFloat(document.getElementById("loanAmount").value);
+      
+      // Apply rules
+      let preAssessment = 20; // Default value
+      
+      if (averageProfitOrLoss > 0) {
+        preAssessment = 60;
+      }
+      
+      if (averageAssetsValue > loanAmount) {
+        preAssessment = 100;
+      }
+      
+      return preAssessment;
+    }
+  </script>
+</body>
+</html>
